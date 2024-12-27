@@ -1,0 +1,16 @@
+<table *ngIf="data.length > 0; else noData">
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns">{{ column }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let column of columns">{{ row[column] }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noData>
+  <p>No data available.</p>
+</ng-template>

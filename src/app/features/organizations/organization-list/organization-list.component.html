@@ -1,0 +1,6 @@
+<h1>Organizations</h1>
+<div *ngFor="let organization of organizations; trackBy: trackById">
+  <a [routerLink]="['/organizations', organization.id]">{{
+    organization.name
+  }}</a>
+</div>

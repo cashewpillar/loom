@@ -1,0 +1,6 @@
+<h1>Sheet Details</h1>
+<p *ngIf="sheetId; else notFound">Details for Sheet ID: {{ sheetId }}</p>
+
+<ng-template #notFound>
+  <p>Sheet not found!</p>
+</ng-template>

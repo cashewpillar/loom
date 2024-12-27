@@ -1,0 +1,9 @@
+<h1>Sheets</h1>
+<div *ngFor="let sheet of sheets; trackBy: trackById">
+  <a [routerLink]="['/sheets', sheet.id]">
+    {{ sheet.name }}
+  </a>
+  <span *ngIf="sheet.tags.length > 0">
+    - Tags: {{ sheet.tags.join(", ") }}</span
+  >
+</div>
