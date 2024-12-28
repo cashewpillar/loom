@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SheetDetailComponent } from './sheet-detail.component';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('SheetDetailComponent', () => {
   let component: SheetDetailComponent;
@@ -15,11 +16,9 @@ describe('SheetDetailComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              paramMap: {
-                get: () => '1',
-              },
-            },
+            paramMap: of({
+              get: () => '1',
+            }),
           },
         },
       ],

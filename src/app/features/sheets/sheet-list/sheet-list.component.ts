@@ -10,9 +10,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SheetListComponent {
   sheets = [
-    { id: 1, name: 'Mentors', tags: ['mentoring', 'recruitment'] },
-    { id: 2, name: 'Mentees', tags: ['mentoring'] },
-    { id: 3, name: 'Sessions', tags: ['mentoring', 'scheduling'] },
+    { id: 1, name: 'Mentors', organizationId: 1 },
+    { id: 2, name: 'Mentees', organizationId: 1 },
+    { id: 3, name: 'Sessions', organizationId: 1 },
   ];
 
   trackById(index: number, sheet: any): number {

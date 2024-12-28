@@ -6,18 +6,18 @@ import { OrganizationDetailComponent } from './features/organizations/organizati
 
 export const routes: Routes = [
   {
-    path: 'sheets/:id',
+    path: 'organizations/:id/sheets/:id',
     component: SheetDetailComponent,
   },
   {
-    path: 'sheets',
+    path: 'organizations/:id/sheets',
     component: SheetListComponent,
   },
   { path: 'organizations/:id', component: OrganizationDetailComponent },
   { path: 'organizations', component: OrganizationListComponent },
   {
     path: '',
-    redirectTo: 'sheets',
+    redirectTo: 'organizations',
     pathMatch: 'full',
   },
 ];
