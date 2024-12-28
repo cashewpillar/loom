@@ -21,58 +21,64 @@ export class SheetDetailComponent implements OnInit {
   // data = signal<Sheet | null>(null);
   data = [
     {
-      "name": "Socrates",
-      "national origin": "Greece",
-      "school": "Classical Greek philosophy",
-      "interests": "Ethics, epistemology, logic, metaphysics, political philosophy",
+      name: 'Socrates',
+      'national origin': 'Greece',
+      school: 'Classical Greek philosophy',
+      interests:
+        'Ethics, epistemology, logic, metaphysics, political philosophy',
     },
     {
-      "name": "Plato",
-      "national origin": "Greece",
-      "school": "Platonism",
-      "interests": "Metaphysics, epistemology, ethics, politics, art",
-    }
-    {
-      "name": "Aristotle",
-      "national origin": "Greece",
-      "school": "Peripatetic",
-      "interests": "Biology, zoology, metaphysics, logic, ethics, aesthetics, poetry, theater, music, rhetoric, psychology, linguistics, politics, government, and physics",
+      name: 'Plato',
+      'national origin': 'Greece',
+      school: 'Platonism',
+      interests: 'Metaphysics, epistemology, ethics, politics, art',
     },
     {
-      "name": "Confucius",
-      "national origin": "China",
-      "school": "Confucianism",
-      "interests": "Ethics, metaphysics, epistemology, politics, education, family, public life",
+      name: 'Aristotle',
+      'national origin': 'Greece',
+      school: 'Peripatetic',
+      interests:
+        'Biology, zoology, metaphysics, logic, ethics, aesthetics, poetry, theater, music, rhetoric, psychology, linguistics, politics, government, and physics',
     },
     {
-      "name": "Laozi",
-      "national origin": "China",
-      "school": "Daoism",
-      "interests": "Philosophy, ethics, politics, metaphysics, logic, poetry",
+      name: 'Confucius',
+      'national origin': 'China',
+      school: 'Confucianism',
+      interests:
+        'Ethics, metaphysics, epistemology, politics, education, family, public life',
     },
     {
-      "name": "Immanuel Kant",
-      "national origin": "Germany",
-      "school": "Kantianism",
-      "interests": "Metaphysics, epistemology, ethics, aesthetics, logic, political philosophy",
+      name: 'Laozi',
+      'national origin': 'China',
+      school: 'Daoism',
+      interests: 'Philosophy, ethics, politics, metaphysics, logic, poetry',
     },
     {
-      "name": "Friedrich Nietzsche",
-      "national origin": "Germany",
-      "school": "Nihilism",
-      "interests": "Philosophy, literature, poetry, philology, psychology, religion, and music",
+      name: 'Immanuel Kant',
+      'national origin': 'Germany',
+      school: 'Kantianism',
+      interests:
+        'Metaphysics, epistemology, ethics, aesthetics, logic, political philosophy',
     },
     {
-      "name": "Jean-Paul Sartre",
-      "national origin": "France",
-      "school": "Existentialism",
-      "interests": "Phenomenology, ontology, epistemology, ethics, political philosophy, and aesthetics",
+      name: 'Friedrich Nietzsche',
+      'national origin': 'Germany',
+      school: 'Nihilism',
+      interests:
+        'Philosophy, literature, poetry, philology, psychology, religion, and music',
     },
     {
-      "name": "Simone de Beauvoir",
-      "national origin": "France",
-      "school": "Existentialism",
-      "interests": "Existentialism, feminism",
+      name: 'Jean-Paul Sartre',
+      'national origin': 'France',
+      school: 'Existentialism',
+      interests:
+        'Phenomenology, ontology, epistemology, ethics, political philosophy, and aesthetics',
+    },
+    {
+      name: 'Simone de Beauvoir',
+      'national origin': 'France',
+      school: 'Existentialism',
+      interests: 'Existentialism, feminism',
     },
   ];
 
@@ -81,7 +87,7 @@ export class SheetDetailComponent implements OnInit {
     { key: 'national origin', label: 'National Origin' },
     { key: 'school', label: 'School' },
     { key: 'interests', label: 'Interests' },
-  ]
+  ];
 
   ngOnInit() {
     this.activatedRoute.paramMap
