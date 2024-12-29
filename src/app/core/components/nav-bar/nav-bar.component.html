@@ -1,6 +1,8 @@
 <nav class="navbar">
   <a [routerLink]="['/']" class="logo">Loom</a>
   <div class="nav-links">
-    <a routerLink="/organizations" routerLinkActive="active">Organizations</a>
+    <a *ngFor="let entity of entities" [routerLink]="[entity.url]">{{
+      entity.name
+    }}</a>
   </div>
 </nav>

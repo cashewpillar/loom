@@ -57,6 +57,19 @@ export class ApiService {
         });
       }
     } else if (
+      endpointParts.length === 2 &&
+      endpointParts[0] === this.sheetEndpoint
+    ) {
+      const sheetId = parseInt(endpointParts[1], 10);
+      const sheet = this.sheets.find((sheet) => sheet.id === sheetId);
+
+      if (sheet) {
+        return new Observable((observer) => {
+          observer.next(sheet as unknown as T);
+          observer.complete();
+        });
+      }
+    } else if (
       endpointParts.length === 3 &&
       endpointParts[0] === this.organizationEndpoint &&
       endpointParts[2] === this.sheetEndpoint
