@@ -15,8 +15,10 @@ export class SheetService {
     this.organizationEndpoint = this.apiService.organizationEndpoint;
   }
 
-  getSheetById(sheetId: number): Observable<Sheet> {
-    return this.apiService.get<Sheet>(`${this.endpoint}/${sheetId}`);
+  getSheetById(organizationId: number, sheetId: number): Observable<Sheet> {
+    return this.apiService.get<Sheet>(
+      `/${this.organizationEndpoint}/${organizationId}/${this.endpoint}/${sheetId}`
+    );
   }
 
   getSheetsByOrganizationId(organizationId: number): Observable<Sheet[]> {

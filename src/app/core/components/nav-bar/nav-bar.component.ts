@@ -58,29 +58,31 @@ export class NavBarComponent implements OnInit {
             ];
           }
 
-          if (
-            urlParts.length == 2 &&
-            urlParts[0] == this.organizationsEndpoint
-          ) {
+          if (urlParts.length >= 2) {
             this.organizationService
               .getOrganizationById(parseInt(urlParts[1], 10))
               .subscribe({
                 next: (organization) => {
-                  this.entities[0] = {
-                    name: organization.name,
-                    url: event.urlAfterRedirects,
-                  };
-                  this.entities[1] = {
-                    name: this.sheetEndpoint,
-                    url: event.urlAfterRedirects,
-                  };
+                  this.entities = [
+                    {
+                      name: organization.name,
+                      url: `${this.organizationsEndpoint}/${organization.id}`,
+                    },
+                    {
+                      name: this.sheetEndpoint,
+                      url: event.urlAfterRedirects,
+                    },
+                  ];
                 },
               });
           }
 
           if (urlParts.length == 4 && urlParts[2] == this.sheetEndpoint) {
             this.sheetService
-              .getSheetById(parseInt(urlParts[3], 10))
+              .getSheetById(
+                parseInt(urlParts[1], 10),
+                parseInt(urlParts[3], 10)
+              )
               .subscribe({
                 next: (sheet) => {
                   this.entities[1] = {
