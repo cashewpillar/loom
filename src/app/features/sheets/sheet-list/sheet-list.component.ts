@@ -1,10 +1,10 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sheet-list',
-  imports: [NgFor, NgIf, RouterModule],
+  imports: [NgFor, RouterModule],
   templateUrl: './sheet-list.component.html',
   styleUrls: ['./sheet-list.component.scss'],
 })

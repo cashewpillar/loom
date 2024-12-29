@@ -1,29 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Sheet } from '../types/sheet';
+import { ApiService } from '../../../core/services/api.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SheetService {
-  // Mock implementation
-  private sheets = [
-    { id: 1, name: 'Mentors' },
-    { id: 2, name: 'Mentees' },
-  ];
+  endpoint: string;
+  organizationEndpoint: string;
 
-  constructor() {}
-
-  getSheets(): Sheet[] {
-    return this.sheets;
+  constructor(private apiService: ApiService) {
+    this.endpoint = this.apiService.sheetEndpoint;
+    this.organizationEndpoint = this.apiService.organizationEndpoint;
   }
 
-  getSheetById(sheetId: number): Sheet | undefined {
-    const sheet = this.sheets.find((sheet) => sheet.id === sheetId);
-
-    if (!sheet) {
-      throw new Error(`Sheet with ID ${sheetId} not found.`);
-    }
-
-    return sheet;
+  getSheetsByOrganizationId(organizationId: number): Observable<Sheet[]> {
+    return this.apiService.get<Sheet[]>(
+      `${this.organizationEndpoint}/${organizationId}/${this.endpoint}`
+    );
   }
 }

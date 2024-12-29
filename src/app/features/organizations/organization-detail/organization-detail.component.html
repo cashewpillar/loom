@@ -1,4 +1,8 @@
-<h1>Organization Detail</h1>
-<p>Details for organization ID: {{ organizationId }}</p>
-
-<!-- Display the sheets or other details here -->
+<h1>{{ organizationId }}: {{ organization.name }}</h1>
+<ul>
+  <li *ngFor="let sheet of sheets">
+    <a [routerLink]="['/organizations', organizationId, 'sheets', sheet.id]">{{
+      sheet.name
+    }}</a>
+  </li>
+</ul>

@@ -1,6 +1,8 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { OrganizationService } from '../services/organization.service';
+import { Organization } from '../types/organization';
 
 @Component({
   selector: 'app-organization-list',
@@ -9,11 +11,15 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./organization-list.component.scss'],
 })
 export class OrganizationListComponent {
-  organizations = [
-    { id: 1, name: 'Organization 1' },
-    { id: 2, name: 'Organization 2' },
-    { id: 3, name: 'Organization 3' },
-  ];
+  organizations: Organization[] = [];
+
+  constructor(private organizationService: OrganizationService) {}
+
+  ngOnInit(): void {
+    this.organizationService.getOrganizations().subscribe((organizations) => {
+      this.organizations = organizations;
+    });
+  }
 
   trackById(index: number, item: any): number {
     return item.id;
