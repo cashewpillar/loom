@@ -6,7 +6,7 @@ import { OrganizationDetailComponent } from './features/organizations/organizati
 
 export const routes: Routes = [
   {
-    path: 'organizations/:id/sheets/:id',
+    path: 'organizations/:organizationId/sheets/:sheetId',
     component: SheetDetailComponent,
   },
   {

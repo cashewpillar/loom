@@ -21,6 +21,12 @@ export class SheetService {
     );
   }
 
+  getRowsBySheetId(organizationId: number, sheetId: number): Observable<any> {
+    return this.apiService.get<any>(
+      `/${this.organizationEndpoint}/${organizationId}/${this.endpoint}/${sheetId}/rows`
+    );
+  }
+
   getSheetsByOrganizationId(organizationId: number): Observable<Sheet[]> {
     return this.apiService.get<Sheet[]>(
       `${this.organizationEndpoint}/${organizationId}/${this.endpoint}`

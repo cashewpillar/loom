@@ -6,9 +6,7 @@ import {
   NavigationEnd,
   Router,
   RouterLink,
-  RouterLinkActive,
   RouterModule,
-  UrlSegment,
 } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { OrganizationService } from '../../../features/organizations/services/organization.service';
@@ -17,7 +15,7 @@ import { SheetService } from '../../../features/sheets/services/sheet.service';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [RouterModule, RouterLink, RouterLinkActive, NgFor], // Import only what's needed
+  imports: [RouterModule, RouterLink, NgFor], // Import only what's needed
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })

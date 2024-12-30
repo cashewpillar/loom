@@ -1,5 +1,8 @@
 <h1>Sheet Details</h1>
-<p *ngIf="sheetId; else notFound">Details for Sheet ID: {{ sheetId }}</p>
+<p *ngIf="sheet; else notFound">{{ sheet.name }}</p>
+<ul *ngFor="let row of rows">
+  <li>{{ row | json }}</li>
+</ul>
 
 <ng-template #notFound>
   <p>Sheet not found!</p>
