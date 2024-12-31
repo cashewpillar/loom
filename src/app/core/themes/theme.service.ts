@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private isDarkTheme = new BehaviorSubject<boolean>(false);
+  private isDarkTheme = new BehaviorSubject<boolean>(true); // Default to dark.. see index.html > html.dark
   isDarkTheme$ = this.isDarkTheme.asObservable();
 
   toggleTheme() {

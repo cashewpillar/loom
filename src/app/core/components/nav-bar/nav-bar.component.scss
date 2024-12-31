@@ -14,9 +14,26 @@
   }
 
   .nav-links {
-    a {
-      margin-left: 0.5rem;
-      color: var(--text);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  :last-child {
+    margin-left: auto;
+  }
+
+  a {
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .toggle-btn {
+    // i want a round button
+    border-radius: 50%;
+    text-decoration: none;
+    padding: 0.2rem;
+    &:hover {
+      background-color: var(--surface0);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -11,11 +11,12 @@ import {
 import { ApiService } from '../../services/api.service';
 import { OrganizationService } from '../../../features/organizations/services/organization.service';
 import { SheetService } from '../../../features/sheets/services/sheet.service';
+import { ThemeService } from '../../themes/theme.service';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [RouterModule, RouterLink, NgFor], // Import only what's needed
+  imports: [NgIf, RouterModule, RouterLink, NgFor], // Import only what's needed
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
@@ -26,13 +27,18 @@ export class NavBarComponent implements OnInit {
 
   entities: { name: string; url: string }[] = [];
 
+  dark: string = 'dark_mode';
+  light: string = 'light_mode';
+
+  toggleBtnText: string = this.light;
   organizationsEndpoint: string;
   sheetEndpoint: string;
 
   constructor(
     private apiService: ApiService,
     private organizationService: OrganizationService,
-    private sheetService: SheetService
+    private sheetService: SheetService,
+    private themeService: ThemeService
   ) {
     this.organizationsEndpoint = this.apiService.organizationEndpoint;
     this.sheetEndpoint = this.apiService.sheetEndpoint;
@@ -93,5 +99,12 @@ export class NavBarComponent implements OnInit {
         }
       },
     });
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+    this.toggleBtnText =
+      this.toggleBtnText == this.light ? this.dark : this.light;
+    console.log('clicked');
   }
 }
