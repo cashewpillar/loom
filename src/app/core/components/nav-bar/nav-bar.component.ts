@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -16,7 +16,7 @@ import { ThemeService } from '../../themes/theme.service';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [NgIf, RouterModule, RouterLink, NgFor], // Import only what's needed
+  imports: [RouterModule, RouterLink, NgFor], // Import only what's needed
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
@@ -30,9 +30,9 @@ export class NavBarComponent implements OnInit {
   dark: string = 'dark_mode';
   light: string = 'light_mode';
 
-  toggleBtnText: string = this.light;
-  organizationsEndpoint: string;
-  sheetEndpoint: string;
+  toggleBtnText!: string;
+  organizationsEndpoint!: string;
+  sheetEndpoint!: string;
 
   constructor(
     private apiService: ApiService,
@@ -42,6 +42,9 @@ export class NavBarComponent implements OnInit {
   ) {
     this.organizationsEndpoint = this.apiService.organizationEndpoint;
     this.sheetEndpoint = this.apiService.sheetEndpoint;
+    this.toggleBtnText = this.themeService.isDarkTheme.value
+      ? this.light
+      : this.dark;
   }
 
   ngOnInit(): void {

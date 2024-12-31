@@ -1,3 +1,4 @@
+<!--
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=light_mode"
@@ -7,6 +8,15 @@
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=dark_mode"
   *ngIf="toggleBtnText === 'dark_mode'"
+/>
+-->
+
+<!--
+  https://developers.google.com/fonts/docs/material_icons#setup_method_1_using_via_google_fonts
+-->
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
 />
 
 <nav class="navbar">
@@ -18,7 +28,10 @@
     </ng-container>
   </div>
   <a class="toggle-btn no-select" (click)="toggleTheme()">
+    <!--
     <span class="material-symbols-outlined">
+    -->
+    <span class="material-icons">
       {{ toggleBtnText }}
     </span>
   </a>
