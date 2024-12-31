@@ -1,5 +1,4 @@
 <h1>Sheet Details</h1>
-<p *ngIf="sheet; else notFound">{{ sheet.name }}</p>
 <ul *ngFor="let row of rows">
   <li>{{ row | json }}</li>
 </ul>

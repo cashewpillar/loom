@@ -1,20 +1,14 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  ParamMap,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SheetService } from '../services/sheet.service';
 import { Sheet } from '../types/sheet';
-import { createAngularTable, getCoreRowModel } from '@tanstack/angular-table';
 import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-sheet-detail',
-  imports: [NgIf, JsonPipe, NgFor],
+  imports: [JsonPipe, NgFor],
   templateUrl: './sheet-detail.component.html',
   styleUrls: ['./sheet-detail.component.scss'],
 })
