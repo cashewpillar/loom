@@ -6,3 +6,46 @@
 <ng-template #notFound>
   <p>Sheet not found!</p>
 </ng-template>
+
+<h1>test tanstack table</h1>
+
+<table>
+  <thead>
+    @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+    <tr>
+      @for (header of headerGroup.headers; track header.id) {
+      <th [colSpan]="header.colSpan">
+        <ng-container
+          *flexRender="
+            header.column.columnDef.header;
+            props: header.getContext();
+            let header
+          "
+        >
+          {{ header }}
+        </ng-container>
+      </th>
+      }
+    </tr>
+    }
+  </thead>
+  <tbody>
+    @for (row of table.getRowModel().rows; track row.id) {
+    <tr>
+      @for (cell of row.getVisibleCells(); track cell.id) {
+      <td>
+        <ng-container
+          *flexRender="
+            cell.column.columnDef.cell;
+            props: cell.getContext();
+            let cell
+          "
+        >
+          {{ cell }}
+        </ng-container>
+      </td>
+      }
+    </tr>
+    }
+  </tbody>
+</table>
