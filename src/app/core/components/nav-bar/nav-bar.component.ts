@@ -12,6 +12,7 @@ import { ApiService } from '../../services/api.service';
 import { OrganizationService } from '../../../features/organizations/services/organization.service';
 import { SheetService } from '../../../features/sheets/services/sheet.service';
 import { ThemeService } from '../../themes/theme.service';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -27,12 +28,15 @@ export class NavBarComponent implements OnInit {
 
   entities: { name: string; url: string }[] = [];
 
+  system: string = 'settings';
   dark: string = 'dark_mode';
   light: string = 'light_mode';
 
   toggleBtnText!: string;
   organizationsEndpoint!: string;
   sheetEndpoint!: string;
+
+  themes!: Record<string, string>;
 
   constructor(
     private apiService: ApiService,
@@ -45,9 +49,15 @@ export class NavBarComponent implements OnInit {
     this.toggleBtnText = this.themeService.isDarkTheme.value
       ? this.light
       : this.dark;
+    this.themes = this.themeService.themes;
   }
 
   ngOnInit(): void {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    fromEvent(prefersDark, 'change').subscribe(() => {
+      this.toggleTheme();
+    });
     this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
@@ -105,9 +115,23 @@ export class NavBarComponent implements OnInit {
   }
 
   toggleTheme() {
+    // dark > light > system
     this.themeService.toggleTheme();
-    this.toggleBtnText =
-      this.toggleBtnText == this.light ? this.dark : this.light;
-    console.log('clicked');
+    // this.toggleBtnText =
+    //   this.toggleBtnText == this.light ? this.dark : this.light;
+    switch (this.toggleBtnText) {
+      case this.themes['dark']:
+        this.toggleBtnText = this.themes['light'];
+        localStorage.setItem('theme', Object.keys(this.themes)[1]);
+        break;
+      case this.themes['system']:
+        this.toggleBtnText = this.themes['system'];
+        localStorage.setItem('theme', Object.keys(this.themes)[2]);
+        break;
+      case this.themes['light']:
+        this.toggleBtnText = this.themes['dark'];
+        localStorage.setItem('theme', Object.keys(this.themes)[0]);
+        break;
+    }
   }
 }
