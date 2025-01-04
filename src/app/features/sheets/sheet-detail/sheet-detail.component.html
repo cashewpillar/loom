@@ -1,14 +1,4 @@
 <h1>Sheet Details</h1>
-<ul *ngFor="let row of rows">
-  <li>{{ row | json }}</li>
-</ul>
-
-<ng-template #notFound>
-  <p>Sheet not found!</p>
-</ng-template>
-
-<h1>test tanstack table</h1>
-
 <table>
   <thead>
     @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
@@ -49,3 +39,7 @@
     }
   </tbody>
 </table>
+
+<ng-template #notFound>
+  <p>Sheet not found!</p>
+</ng-template>

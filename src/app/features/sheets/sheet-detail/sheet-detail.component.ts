@@ -1,16 +1,25 @@
-import { NgFor } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SheetService } from '../services/sheet.service';
 import { Sheet } from '../types/sheet';
-import { JsonPipe } from '@angular/common';
 import {
   createAngularTable,
   createColumnHelper,
   FlexRenderDirective,
   getCoreRowModel,
 } from '@tanstack/angular-table';
+import { Schema } from '../types/schema';
+
+type InferType<T> = {
+  [K in keyof T]: T[K] extends 'number'
+    ? number
+    : T[K] extends 'string'
+    ? string
+    : T[K] extends 'boolean'
+    ? boolean
+    : unknown;
+};
 
 // define person here
 type User = {
@@ -24,7 +33,7 @@ type User = {
 
 @Component({
   selector: 'app-sheet-detail',
-  imports: [JsonPipe, NgFor, FlexRenderDirective],
+  imports: [FlexRenderDirective],
   templateUrl: './sheet-detail.component.html',
   styleUrls: ['./sheet-detail.component.scss'],
 })
@@ -34,93 +43,12 @@ export class SheetDetailComponent implements OnInit {
   private readonly sheetService: SheetService = inject(SheetService);
 
   sheet!: Sheet;
-  rows!: any[]; // TODO: fix type
+  schema!: Schema;
+  rows = signal<any[]>([]); // TODO: fix type
 
-  // tanstack test
-  data = signal<User[]>([
-    {
-      firstName: 'Tanner',
-      lastName: 'Linsley',
-      age: 33,
-      visits: 100,
-      progress: 50,
-      status: 'Married',
-    },
-    {
-      firstName: 'Kevin',
-      lastName: 'Vandy',
-      age: 27,
-      visits: 200,
-      progress: 100,
-      status: 'Single',
-    },
-  ]);
-  columnHelper = createColumnHelper<User>();
-  defaultColumns = [
-    // Display Column
-    this.columnHelper.display({
-      id: 'actions',
-      // cell: props => <RowActions row={props.row} />,
-    }),
-    // Grouping Column
-    this.columnHelper.group({
-      header: 'Name',
-      footer: (props) => props.column.id,
-      columns: [
-        // Accessor Column
-        this.columnHelper.accessor('firstName', {
-          cell: (info) => info.getValue(),
-          footer: (props) => props.column.id,
-        }),
-        // Accessor Column
-        this.columnHelper.accessor((row) => row.lastName, {
-          id: 'lastName',
-          cell: (info) => info.getValue(),
-          header: 'Last Name', // Just use a string instead of JSX
-          footer: (props) => props.column.id,
-        }),
-      ],
-    }),
-    // Grouping Column
-    this.columnHelper.group({
-      header: 'Info',
-      footer: (props) => props.column.id,
-      columns: [
-        // Accessor Column
-        this.columnHelper.accessor('age', {
-          header: () => 'Age',
-          footer: (props) => props.column.id,
-        }),
-        // Grouping Column
-        this.columnHelper.group({
-          header: 'More Info',
-          columns: [
-            // Accessor Column
-            this.columnHelper.accessor('visits', {
-              header: 'Visits',
-              footer: (props) => props.column.id,
-            }),
-            // Accessor Column
-            this.columnHelper.accessor('status', {
-              header: 'Status',
-              footer: (props) => props.column.id,
-            }),
-            // Accessor Column
-            this.columnHelper.accessor('progress', {
-              header: 'Profile Progress',
-              footer: (props) => props.column.id,
-            }),
-          ],
-        }),
-      ],
-    }),
-  ];
-
-  table = createAngularTable(() => ({
-    data: this.data(),
-    columns: this.defaultColumns,
-    getCoreRowModel: getCoreRowModel(),
-  }));
+  columnHelper!: any;
+  defaultColumns!: any[];
+  table!: any;
 
   ngOnInit() {
     this.activatedRoute.paramMap
@@ -147,7 +75,33 @@ export class SheetDetailComponent implements OnInit {
     this.sheetService
       .getRowsBySheetId(organizationId, sheetId)
       .subscribe((rows) => {
-        this.rows = rows;
+        this.rows.set(rows);
       });
+
+    this.sheetService
+      .getSchemaBySheetId(organizationId, sheetId)
+      .subscribe((schema) => {
+        this.schema = schema;
+      });
+
+    this.initTable();
+  }
+
+  private initTable() {
+    type SchemaType = InferType<typeof this.schema>;
+    this.columnHelper = createColumnHelper<SchemaType>();
+    this.defaultColumns = [
+      ...this.schema.columns.map((column) =>
+        this.columnHelper.accessor(column.name, {
+          header: column.name,
+          footer: (props: any) => props.column.id,
+        })
+      ),
+    ];
+    this.table = createAngularTable(() => ({
+      data: this.rows(),
+      columns: this.defaultColumns,
+      getCoreRowModel: getCoreRowModel(),
+    }));
   }
 }
