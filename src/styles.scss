@@ -143,11 +143,15 @@ h1 {
   color: var(--blue);
 }
 table {
-  border: 1px solid var(--text);
+  border: 1px solid var(--crust);
   th,
   td {
     padding: 0.5rem;
-    border: 1px solid var(--text);
+    border: 1px solid var(--crust);
+  }
+  th {
+    background-color: var(--crust);
+    color: var(--text);
   }
 }
 .no-select {

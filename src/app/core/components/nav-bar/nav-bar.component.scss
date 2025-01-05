@@ -25,6 +25,9 @@
   a {
     color: var(--text);
     cursor: pointer;
+    &:hover {
+      color: var(--subtext0);
+    }
   }
 
   .toggle-btn {
