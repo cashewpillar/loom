@@ -25,8 +25,8 @@
       <tr>
         @for (cell of row.getVisibleCells(); track cell.id) {
         <td
-          [class.selected]="isCellSelected(row.id, cell.column.id)"
-          (click)="toggleCellSelection(row.id, cell.column.id)"
+          [class.is-active-cell]="isActiveCell(row.id, cell.column.id)"
+          (click)="toggleActiveCell(row.id, cell.column.id)"
         >
           <ng-container
             *flexRender="

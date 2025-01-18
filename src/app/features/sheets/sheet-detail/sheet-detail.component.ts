@@ -42,7 +42,8 @@ export class SheetDetailComponent implements OnInit {
   defaultColumns!: any[];
   table!: any;
 
-  selectedCell: string = '';
+  activeCell: string = ''; // the cell to be edited; for a selection of multiple cells- this will be the starting cell
+  selectedCells: Set<string> = new Set(); // the cells that have been selected for cloning or deleting
 
   ngOnInit() {
     this.activatedRoute.paramMap
@@ -104,16 +105,16 @@ export class SheetDetailComponent implements OnInit {
     return `${rowId}_${columnId}`;
   }
 
-  isCellSelected(rowId: string | number, columnId: string) {
-    return this.selectedCell === this.getCellKey(rowId, columnId);
+  isActiveCell(rowId: string | number, columnId: string) {
+    return this.activeCell === this.getCellKey(rowId, columnId);
   }
 
-  toggleCellSelection(rowId: string | number, columnId: string) {
+  toggleActiveCell(rowId: string | number, columnId: string) {
     const key = this.getCellKey(rowId, columnId);
-    if (this.selectedCell === key) {
-      this.selectedCell = '';
+    if (this.activeCell === key) {
+      this.activeCell = '';
     } else {
-      this.selectedCell = key;
+      this.activeCell = key;
     }
   }
 }

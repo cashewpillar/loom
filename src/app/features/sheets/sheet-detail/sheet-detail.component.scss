@@ -9,6 +9,7 @@ h1 {
 }
 
 table {
+  margin: 1px;
   user-select: none;
 
   td,
@@ -16,7 +17,7 @@ table {
     cursor: default;
   }
 
-  td.selected {
+  td.is-active-cell {
     outline: 2px solid var(--green);
   }
 
@@ -27,7 +28,7 @@ table {
   tr:hover {
     background-color: var(--surface0);
 
-    td:not(.selected):hover {
+    td:not(.is-active-cell):hover {
       background-color: var(--surface1);
     }
   }
