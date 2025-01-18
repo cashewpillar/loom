@@ -42,6 +42,8 @@ export class SheetDetailComponent implements OnInit {
   defaultColumns!: any[];
   table!: any;
 
+  selectedCell: string = '';
+
   ngOnInit() {
     this.activatedRoute.paramMap
       .pipe(
@@ -96,6 +98,23 @@ export class SheetDetailComponent implements OnInit {
       columns: this.defaultColumns,
       getCoreRowModel: getCoreRowModel(),
     }));
+  }
+
+  getCellKey(rowId: string | number, columnId: string) {
+    return `${rowId}_${columnId}`;
+  }
+
+  isCellSelected(rowId: string | number, columnId: string) {
+    return this.selectedCell === this.getCellKey(rowId, columnId);
+  }
+
+  toggleCellSelection(rowId: string | number, columnId: string) {
+    const key = this.getCellKey(rowId, columnId);
+    if (this.selectedCell === key) {
+      this.selectedCell = '';
+    } else {
+      this.selectedCell = key;
+    }
   }
 }
 

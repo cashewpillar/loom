@@ -9,10 +9,25 @@ h1 {
 }
 
 table {
+  user-select: none;
+
+  td,
+  th:hover {
+    cursor: default;
+  }
+
+  td.selected {
+    outline: 2px solid var(--green);
+  }
+
+  th:hover {
+    background-color: var(--mantle);
+  }
+
   tr:hover {
     background-color: var(--surface0);
 
-    td:hover {
+    td:not(.selected):hover {
       background-color: var(--surface1);
     }
   }

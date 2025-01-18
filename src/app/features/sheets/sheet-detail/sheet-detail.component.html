@@ -24,7 +24,10 @@
       @for (row of table.getRowModel().rows; track row.id) {
       <tr>
         @for (cell of row.getVisibleCells(); track cell.id) {
-        <td>
+        <td
+          [class.selected]="isCellSelected(row.id, cell.column.id)"
+          (click)="toggleCellSelection(row.id, cell.column.id)"
+        >
           <ng-container
             *flexRender="
               cell.column.columnDef.cell;
