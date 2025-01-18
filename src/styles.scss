@@ -162,3 +162,9 @@ table {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+button {
+  cursor: pointer;
+  border: 1px solid var(--crust);
+  background-color: var(--green);
+  color: var(--crust);
+}
