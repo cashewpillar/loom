@@ -165,6 +165,10 @@ table {
 button {
   cursor: pointer;
   border: 1px solid var(--crust);
-  background-color: var(--green);
+  background-color: var(--yellow);
   color: var(--crust);
+
+  &:hover {
+    background-color: var(--green);
+  }
 }
