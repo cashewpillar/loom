@@ -596,11 +596,11 @@ const mockRows = [
   {
     id: 18,
     sheetId: 2,
-    title: 'The Republic',
-    author: 'Plato',
+    title: 'A Copy of the Republic',
+    author: 'Plato 2.0',
     theme: 'Justice and Governance',
-    impact: 'Philosophical foundations of politics',
-    year_written: '375 BC',
+    impact: 'Politics, Foundations',
+    year_written: '2025',
   },
   {
     id: 19,
