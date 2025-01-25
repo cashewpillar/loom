@@ -1,8 +1,14 @@
-import { NgFor } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { isPlatformBrowser, NgFor } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  Inject,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  ActivatedRoute,
   NavigationEnd,
   Router,
   RouterLink,
@@ -12,7 +18,6 @@ import { ApiService } from '../../services/api.service';
 import { OrganizationService } from '../../../features/organizations/services/organization.service';
 import { SheetService } from '../../../features/sheets/services/sheet.service';
 import { ThemeService } from '../../themes/theme.service';
-import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,42 +27,36 @@ import { fromEvent } from 'rxjs';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly router: Router = inject(Router);
+  private isBrowser: boolean;
 
-  entities: { name: string; url: string }[] = [];
-
-  system: string = 'settings';
-  dark: string = 'dark_mode';
-  light: string = 'light_mode';
-
-  toggleBtnText!: string;
   organizationsEndpoint!: string;
   sheetEndpoint!: string;
+  entities: { name: string; url: string }[] = [];
 
-  themes!: Record<string, string>;
+  private readonly themeKey = 'theme';
+  toggleBtnText!: string;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private apiService: ApiService,
     private organizationService: OrganizationService,
     private sheetService: SheetService,
     private themeService: ThemeService
   ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.organizationsEndpoint = this.apiService.organizationEndpoint;
     this.sheetEndpoint = this.apiService.sheetEndpoint;
-    this.toggleBtnText = this.themeService.isDarkTheme.value
-      ? this.light
-      : this.dark;
-    this.themes = this.themeService.themes;
   }
 
   ngOnInit(): void {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    fromEvent(prefersDark, 'change').subscribe(() => {
-      this.toggleTheme();
-    });
+    if (this.isBrowser) {
+      const savedTheme =
+        (localStorage.getItem(this.themeKey) as 'light' | 'dark') || 'light';
+      this.themeService.setTheme(savedTheme);
+      this.toggleBtnText = `${savedTheme === 'light' ? 'dark' : 'light'}_mode`;
+    }
     this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
@@ -114,24 +113,11 @@ export class NavBarComponent implements OnInit {
     });
   }
 
-  toggleTheme() {
-    // dark > light > system
-    this.themeService.toggleTheme();
-    // this.toggleBtnText =
-    //   this.toggleBtnText == this.light ? this.dark : this.light;
-    switch (this.toggleBtnText) {
-      case this.themes['dark']:
-        this.toggleBtnText = this.themes['light'];
-        localStorage.setItem('theme', Object.keys(this.themes)[1]);
-        break;
-      case this.themes['system']:
-        this.toggleBtnText = this.themes['system'];
-        localStorage.setItem('theme', Object.keys(this.themes)[2]);
-        break;
-      case this.themes['light']:
-        this.toggleBtnText = this.themes['dark'];
-        localStorage.setItem('theme', Object.keys(this.themes)[0]);
-        break;
-    }
+  toggleTheme(): void {
+    const currentTheme = this.themeService.getTheme();
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    this.toggleBtnText = `${currentTheme}_mode`;
+    this.themeService.setTheme(newTheme);
+    localStorage.setItem(this.themeKey, newTheme);
   }
 }

@@ -72,6 +72,6 @@ $catppuccin-mocha: (
 }
 
 // Mocha (dark theme) variables
-.dark {
+[data-theme="dark"] {
   @include theme($catppuccin-mocha);
 }
