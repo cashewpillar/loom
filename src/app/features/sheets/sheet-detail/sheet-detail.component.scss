@@ -3,6 +3,33 @@ h1 {
   margin-bottom: 16px;
 }
 
-ul {
-  margin-bottom: 16px;
+.table-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+table {
+  margin: 1px;
+  user-select: none;
+
+  td,
+  th:hover {
+    cursor: default;
+  }
+
+  td.is-active-cell {
+    outline: 2px solid var(--green);
+  }
+
+  th:hover {
+    background-color: var(--mantle);
+  }
+
+  tr:hover {
+    background-color: var(--surface0);
+
+    td:not(.is-active-cell):hover {
+      background-color: var(--surface1);
+    }
+  }
 }

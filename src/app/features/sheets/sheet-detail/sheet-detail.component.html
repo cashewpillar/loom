@@ -1,7 +1,51 @@
 <h1>Sheet Details</h1>
-<ul *ngFor="let row of rows">
-  <li>{{ row | json }}</li>
-</ul>
+<div class="table-container">
+  <table>
+    <thead>
+      @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+      <tr>
+        @for (header of headerGroup.headers; track header.id) {
+        <th [colSpan]="header.colSpan">
+          <ng-container
+            *flexRender="
+              header.column.columnDef.header;
+              props: header.getContext();
+              let header
+            "
+          >
+            {{ header }}
+          </ng-container>
+        </th>
+        }
+      </tr>
+      }
+    </thead>
+    <tbody>
+      @for (row of table.getRowModel().rows; track row.id) {
+      <tr>
+        @for (cell of row.getVisibleCells(); track cell.id) {
+        <td
+          [class.is-active-cell]="isActiveCell(row.id, cell.column.id)"
+          (click)="toggleActiveCell(row.id, cell.column.id)"
+        >
+          <ng-container
+            *flexRender="
+              cell.column.columnDef.cell;
+              props: cell.getContext();
+              let cell
+            "
+          >
+            {{ cell }}
+          </ng-container>
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+  <button>+</button>
+</div>
+<button>+</button>
 
 <ng-template #notFound>
   <p>Sheet not found!</p>

@@ -32,4 +32,10 @@ export class SheetService {
       `${this.organizationEndpoint}/${organizationId}/${this.endpoint}`
     );
   }
+
+  getSchemaBySheetId(organizationId: number, sheetId: number): Observable<any> {
+    return this.apiService.get<any>(
+      `/${this.organizationEndpoint}/${organizationId}/${this.endpoint}/${sheetId}/schema`
+    );
+  }
 }

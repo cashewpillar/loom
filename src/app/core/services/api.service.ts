@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Sheet } from '../../features/sheets/types/sheet';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,12 @@ export class ApiService {
   sheetEndpoint = 'sheets';
   organizationEndpoint = 'organizations';
   rowEndpoint = 'rows';
+  schemaEndpoint = 'schema';
 
   organizations = mockOrganizations;
   sheets = mockSheets;
   rows = mockRows;
+  schemas = mockSchemas;
 
   constructor() {}
 
@@ -88,6 +91,19 @@ export class ApiService {
         observer.next(rows as unknown as T);
         observer.complete();
       });
+    } else if (
+      endpointParts.length === 5 &&
+      endpointParts[0] === this.organizationEndpoint &&
+      endpointParts[2] === this.sheetEndpoint &&
+      endpointParts[4] === this.schemaEndpoint
+    ) {
+      const sheetId = parseInt(endpointParts[3], 10);
+      const schema = this.schemas.find((schema) => schema.sheetId === sheetId);
+
+      return new Observable((observer) => {
+        observer.next(schema as unknown as T);
+        observer.complete();
+      });
     }
 
     return new Observable((observer) => {
@@ -134,7 +150,7 @@ const mockOrganizations = [
   },
 ];
 
-const mockSheets = [
+const mockSheets: Sheet[] = [
   // Platonic Academy
   {
     id: 1,
@@ -236,6 +252,182 @@ const mockSheets = [
   },
 ];
 
+const mockSchemas = [
+  {
+    id: 1,
+    sheetId: 1,
+    name: 'Philosopher',
+    columns: [
+      { id: 1, schemaId: 1, name: 'name', type: 'string' },
+      { id: 2, schemaId: 1, name: 'specialty', type: 'string' },
+      { id: 3, schemaId: 1, name: 'contribution', type: 'string' },
+      { id: 4, schemaId: 1, name: 'notable_students', type: 'string' },
+      { id: 5, schemaId: 1, name: 'years_active', type: 'number' },
+    ],
+  },
+  {
+    id: 2,
+    sheetId: 2,
+    name: 'Manuscript',
+    columns: [
+      { id: 1, schemaId: 2, name: 'title', type: 'string' },
+      { id: 2, schemaId: 2, name: 'author', type: 'string' },
+      { id: 3, schemaId: 2, name: 'theme', type: 'string' },
+      { id: 4, schemaId: 2, name: 'impact', type: 'string' },
+      { id: 5, schemaId: 2, name: 'year_written', type: 'number' },
+    ],
+  },
+  {
+    id: 3,
+    sheetId: 3,
+    name: 'Discipline',
+    columns: [
+      { id: 1, schemaId: 3, name: 'name', type: 'string' },
+      { id: 2, schemaId: 3, name: 'description', type: 'string' },
+      { id: 3, schemaId: 3, name: 'notable_contributors', type: 'string' },
+      { id: 4, schemaId: 3, name: 'foundational_work', type: 'string' },
+    ],
+  },
+  {
+    id: 4,
+    sheetId: 4,
+    name: 'Digital Rights Advocate',
+    columns: [
+      { id: 1, schemaId: 4, name: 'name', type: 'string' },
+      { id: 2, schemaId: 4, name: 'role', type: 'string' },
+      { id: 3, schemaId: 4, name: 'contribution', type: 'string' },
+      { id: 4, schemaId: 4, name: 'impact', type: 'string' },
+      { id: 5, schemaId: 4, name: 'years_active', type: 'number' },
+    ],
+  },
+  {
+    id: 5,
+    sheetId: 5,
+    name: 'Legal Case',
+    columns: [
+      { id: 1, schemaId: 5, name: 'name', type: 'string' },
+      { id: 2, schemaId: 5, name: 'type', type: 'string' },
+      { id: 3, schemaId: 5, name: 'outcome', type: 'string' },
+      { id: 4, schemaId: 5, name: 'year_filed', type: 'number' },
+    ],
+  },
+  {
+    id: 6,
+    sheetId: 6,
+    name: 'Tech Project',
+    columns: [
+      { id: 1, schemaId: 6, name: 'name', type: 'string' },
+      { id: 2, schemaId: 6, name: 'description', type: 'string' },
+      { id: 3, schemaId: 6, name: 'impact', type: 'string' },
+      { id: 4, schemaId: 6, name: 'year_started', type: 'number' },
+    ],
+  },
+  {
+    id: 7,
+    sheetId: 7,
+    name: 'Scholar',
+    columns: [
+      { id: 1, schemaId: 7, name: 'name', type: 'string' },
+      { id: 2, schemaId: 7, name: 'specialty', type: 'string' },
+      { id: 3, schemaId: 7, name: 'contribution', type: 'string' },
+    ],
+  },
+  {
+    id: 8,
+    sheetId: 8,
+    name: 'Translation',
+    columns: [
+      { id: 1, schemaId: 8, name: 'title', type: 'string' },
+      { id: 2, schemaId: 8, name: 'author', type: 'string' },
+      { id: 3, schemaId: 8, name: 'translator', type: 'string' },
+      { id: 4, schemaId: 8, name: 'impact', type: 'string' },
+      { id: 5, schemaId: 8, name: 'year_translated', type: 'number' },
+    ],
+  },
+  {
+    id: 9,
+    sheetId: 9,
+    name: 'Invention',
+    columns: [
+      { id: 1, schemaId: 9, name: 'name', type: 'string' },
+      { id: 2, schemaId: 9, name: 'inventor', type: 'string' },
+      { id: 3, schemaId: 9, name: 'purpose', type: 'string' },
+      { id: 4, schemaId: 9, name: 'impact', type: 'string' },
+      { id: 5, schemaId: 9, name: 'year_invented', type: 'number' },
+    ],
+  },
+  {
+    id: 10,
+    sheetId: 10,
+    name: 'Researcher',
+    columns: [
+      { id: 1, schemaId: 10, name: 'name', type: 'string' },
+      { id: 2, schemaId: 10, name: 'specialty', type: 'string' },
+      { id: 3, schemaId: 10, name: 'contribution', type: 'string' },
+      { id: 4, schemaId: 10, name: 'innovations', type: 'string' },
+      { id: 5, schemaId: 10, name: 'awards', type: 'number' },
+      { id: 6, schemaId: 10, name: 'years_active', type: 'number' },
+    ],
+  },
+  {
+    id: 11,
+    sheetId: 11,
+    name: 'Innovation',
+    columns: [
+      { id: 1, schemaId: 11, name: 'name', type: 'string' },
+      { id: 2, schemaId: 11, name: 'inventors', type: 'string' },
+      { id: 3, schemaId: 11, name: 'impact', type: 'string' },
+      { id: 4, schemaId: 11, name: 'year_invented', type: 'number' },
+    ],
+  },
+  {
+    id: 12,
+    sheetId: 12,
+    name: 'Patent',
+    columns: [
+      { id: 1, schemaId: 12, name: 'name', type: 'string' },
+      { id: 2, schemaId: 12, name: 'inventors', type: 'string' },
+      { id: 3, schemaId: 12, name: 'patent_number', type: 'string' },
+      { id: 4, schemaId: 12, name: 'year_granted', type: 'number' },
+      { id: 5, schemaId: 12, name: 'impact', type: 'string' },
+    ],
+  },
+  {
+    id: 13,
+    sheetId: 13,
+    name: 'Contributor',
+    columns: [
+      { id: 1, schemaId: 13, name: 'name', type: 'string' },
+      { id: 2, schemaId: 13, name: 'role', type: 'string' },
+      { id: 3, schemaId: 13, name: 'contribution', type: 'string' },
+      { id: 4, schemaId: 13, name: 'impact', type: 'string' },
+      { id: 5, schemaId: 13, name: 'years_active', type: 'number' },
+    ],
+  },
+  {
+    id: 14,
+    sheetId: 14,
+    name: 'License',
+    columns: [
+      { id: 1, schemaId: 14, name: 'name', type: 'string' },
+      { id: 2, schemaId: 14, name: 'description', type: 'string' },
+      { id: 3, schemaId: 14, name: 'use_case', type: 'string' },
+      { id: 4, schemaId: 14, name: 'introduced', type: 'number' },
+    ],
+  },
+  {
+    id: 15,
+    sheetId: 15,
+    name: 'Project',
+    columns: [
+      { id: 1, schemaId: 15, name: 'name', type: 'string' },
+      { id: 2, schemaId: 15, name: 'description', type: 'string' },
+      { id: 3, schemaId: 15, name: 'impact', type: 'string' },
+      { id: 4, schemaId: 15, name: 'year_started', type: 'number' },
+    ],
+  },
+];
+
 const mockRows = [
   // Platonic Academy - Philosophers
   {
@@ -244,7 +436,7 @@ const mockRows = [
     name: 'Socrates',
     specialty: 'Dialectics',
     contribution: 'Socratic Method',
-    notable_students: ['Plato', 'Xenophon'],
+    notable_students: 'Plato, Xenophon',
     years_active: '470-399 BC',
   },
   {
@@ -253,7 +445,7 @@ const mockRows = [
     name: 'Plato',
     specialty: 'Metaphysics',
     contribution: 'Theory of Forms',
-    notable_students: ['Aristotle', 'Speusippus'],
+    notable_students: 'Aristotle, Speusippus',
     years_active: '428-348 BC',
   },
   {
@@ -262,7 +454,7 @@ const mockRows = [
     name: 'Aristotle',
     specialty: 'Logic and Biology',
     contribution: 'Formal Logic',
-    notable_students: ['Alexander the Great'],
+    notable_students: 'Alexander the Great',
     years_active: '384-322 BC',
   },
 
@@ -360,7 +552,7 @@ const mockRows = [
     name: 'Claude Shannon',
     specialty: 'Information Theory',
     contribution: 'Digital Circuit Design Theory',
-    innovations: ['Information Theory', 'Digital Circuit Design'],
+    innovations: 'Information Theory, Digital Circuit Design',
     years_active: '1941-1972',
   },
   {
@@ -369,7 +561,7 @@ const mockRows = [
     name: 'John Bardeen',
     specialty: 'Physics',
     contribution: 'Invention of the Transistor',
-    awards: ['Nobel Prize in Physics (1956, 1972)'],
+    awards: 'Nobel Prize in Physics (1956, 1972)',
     years_active: '1940-1991',
   },
   {
@@ -404,11 +596,11 @@ const mockRows = [
   {
     id: 18,
     sheetId: 2,
-    title: 'The Republic',
-    author: 'Plato',
+    title: 'A Copy of the Republic',
+    author: 'Plato 2.0',
     theme: 'Justice and Governance',
-    impact: 'Philosophical foundations of politics',
-    year_written: '375 BC',
+    impact: 'Politics, Foundations',
+    year_written: '2025',
   },
   {
     id: 19,
@@ -544,7 +736,7 @@ const mockRows = [
     id: 33,
     sheetId: 11,
     name: 'Transistor',
-    inventors: ['John Bardeen', 'Walter Brattain', 'William Shockley'],
+    inventors: 'John Bardeen, Walter Brattain, William Shockley',
     impact: 'Foundation of modern electronics',
     year_invented: 1947,
   },
@@ -552,7 +744,7 @@ const mockRows = [
     id: 34,
     sheetId: 11,
     name: 'Unix Operating System',
-    inventors: ['Ken Thompson', 'Dennis Ritchie'],
+    inventors: 'Ken Thompson, Dennis Ritchie',
     impact: 'Revolutionized software development',
     year_invented: 1969,
   },
@@ -560,7 +752,7 @@ const mockRows = [
     id: 35,
     sheetId: 11,
     name: 'C Programming Language',
-    inventors: ['Dennis Ritchie'],
+    inventors: 'Dennis Ritchie',
     impact: 'Widely used programming language',
     year_invented: 1972,
   },
@@ -621,7 +813,7 @@ const mockRows = [
     id: 42,
     sheetId: 12,
     name: 'Transistor Patent',
-    inventors: ['John Bardeen', 'Walter Brattain', 'William Shockley'],
+    inventors: 'John Bardeen, Walter Brattain, William Shockley',
     patent_number: 'US2524035',
     year_granted: 1950,
     impact: 'Launched the semiconductor revolution',
@@ -630,7 +822,7 @@ const mockRows = [
     id: 43,
     sheetId: 12,
     name: 'Laser Patent',
-    inventors: ['Arthur Schawlow', 'Charles Townes'],
+    inventors: 'Arthur Schawlow, Charles Townes',
     patent_number: 'US2878866',
     year_granted: 1960,
     impact: 'Enabled advancements in communication and medicine',
@@ -639,7 +831,7 @@ const mockRows = [
     id: 44,
     sheetId: 12,
     name: 'Solar Cell Patent',
-    inventors: ['Daryl Chapin', 'Calvin Fuller', 'Gerald Pearson'],
+    inventors: 'Daryl Chapin, Calvin Fuller, Gerald Pearson',
     patent_number: 'US2780765',
     year_granted: 1957,
     impact: 'Pioneered solar power technology',
