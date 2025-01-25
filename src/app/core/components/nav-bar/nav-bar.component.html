@@ -4,7 +4,7 @@
 />
 
 <nav class="navbar">
-  <a class="logo" [routerLink]="['/']">Loom</a>
+  <a class="logo" [routerLink]="['/']">loom</a>
   <div class="nav-links">
     <ng-container *ngFor="let entity of entities">
       <span>></span>
@@ -12,9 +12,6 @@
     </ng-container>
   </div>
   <a class="toggle-btn no-select" (click)="toggleTheme()">
-    <!--
-    <span class="material-symbols-outlined">
-    -->
     <span class="material-icons">
       {{ toggleBtnText }}
     </span>

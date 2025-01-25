@@ -9,10 +9,6 @@ export const routes: Routes = [
     path: 'organizations/:organizationId/sheets/:sheetId',
     component: SheetDetailComponent,
   },
-  {
-    path: 'organizations/:id/sheets',
-    component: SheetListComponent,
-  },
   { path: 'organizations/:id', component: OrganizationDetailComponent },
   { path: 'organizations', component: OrganizationListComponent },
   {
