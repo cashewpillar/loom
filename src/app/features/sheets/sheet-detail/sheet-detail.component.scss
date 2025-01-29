@@ -19,6 +19,7 @@ table {
 
   td.is-active-cell {
     outline: 2px solid var(--green);
+    background-color: var(--base);
   }
 
   th:hover {
@@ -27,9 +28,20 @@ table {
 
   tr:hover {
     background-color: var(--surface0);
+  }
 
-    td:not(.is-active-cell):hover {
-      background-color: var(--surface1);
-    }
+  /* Style the input field to blend into the cell */
+  input {
+    width: 100%; /* Take up the full width of the cell */
+    height: 100%; /* Take up the full height of the cell */
+    border: none; /* Remove the default border */
+    outline: none; /* Remove the outline when focused */
+    padding: 0; /* Remove padding to align text perfectly */
+    margin: 0; /* Remove margin */
+    font-family: inherit; /* Use the same font as the table */
+    font-size: inherit; /* Use the same font size as the table */
+    text-align: inherit; /* Match the text alignment of the cell */
+    background-color: transparent; /* Make the background transparent */
+    color: inherit; /* Use the same text color as the cell */
   }
 }

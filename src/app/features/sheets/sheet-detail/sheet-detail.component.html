@@ -27,7 +27,9 @@
         <td
           [class.is-active-cell]="isActiveCell(row.id, cell.column.id)"
           (click)="toggleActiveCell(row.id, cell.column.id)"
+          (dblclick)="toggleEditCell(row.id, cell.column.id)"
         >
+          @if (editCell !== getCellKey(row.id, cell.column.id)) {
           <ng-container
             *flexRender="
               cell.column.columnDef.cell;
@@ -37,6 +39,17 @@
           >
             {{ cell }}
           </ng-container>
+          } @else {
+          <input
+            #inputRef
+            [value]="editValue()"
+            (change)="saveValue()"
+            type="text"
+            autofocus
+            (blur)="toggleEditCell(row.id, cell.column.id)"
+            (keyup.enter)="inputRef.blur()"
+          />
+          }
         </td>
         }
       </tr>
