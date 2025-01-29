@@ -1,4 +1,12 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SheetService } from '../services/sheet.service';
@@ -42,8 +50,11 @@ export class SheetDetailComponent implements OnInit {
   defaultColumns!: any[];
   table!: any;
 
-  activeCell: string = ''; // the cell to be edited; for a selection of multiple cells- this will be the starting cell
+  activeCell = signal<string>(''); // the cell to be edited; for a selection of multiple cells- this will be the starting cell
   selectedCells: Set<string> = new Set(); // the cells that have been selected for cloning or deleting
+  editCell: string = ''; // the cell that is being edited
+  editValue = signal(''); // the value of the cell being edited
+  @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
 
   ngOnInit() {
     this.activatedRoute.paramMap
@@ -101,21 +112,53 @@ export class SheetDetailComponent implements OnInit {
     }));
   }
 
-  getCellKey(rowId: string | number, columnId: string) {
+  getCellKey(rowId: string, columnId: string) {
     return `${rowId}_${columnId}`;
   }
 
-  isActiveCell(rowId: string | number, columnId: string) {
-    return this.activeCell === this.getCellKey(rowId, columnId);
+  isActiveCell(rowId: string, columnId: string) {
+    return this.activeCell() === this.getCellKey(rowId, columnId);
   }
 
-  toggleActiveCell(rowId: string | number, columnId: string) {
+  toggleActiveCell(rowId: string, columnId: string) {
     const key = this.getCellKey(rowId, columnId);
-    if (this.activeCell === key) {
-      this.activeCell = '';
+    if (this.editCell !== key) {
+      this.activeCell.set(key);
     } else {
-      this.activeCell = key;
+      this.activeCell.set('');
     }
+  }
+
+  toggleEditCell(rowId: string, columnId: string) {
+    const key = this.getCellKey(rowId, columnId);
+    const rowIdInt = parseInt(rowId, 10);
+    if (this.editCell === key) {
+      // save the edit value
+      this.rows.set(
+        this.rows().map((row, index) => {
+          if (index === rowIdInt) {
+            row[columnId] = this.editValue();
+          }
+          return row;
+        })
+      );
+      // reset
+      this.editCell = '';
+      this.editValue.set('');
+    } else {
+      this.editCell = key;
+      this.editValue.set(this.rows()[rowIdInt][columnId]);
+      // Use setTimeout to ensure the input element is rendered before selecting its text
+      setTimeout(() => {
+        if (this.inputRef) {
+          this.inputRef.nativeElement.select(); // Select all text in the input field
+        }
+      });
+    }
+  }
+
+  saveValue() {
+    this.editValue.set(this.inputRef.nativeElement.value);
   }
 }
 
